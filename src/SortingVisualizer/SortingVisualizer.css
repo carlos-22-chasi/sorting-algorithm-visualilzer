@@ -16,7 +16,7 @@ body{
     justify-content: center; 
     align-items: flex-end; 
     width: 99%;
-    height: 710px; /* Set a fixed height for the container */
+    height: 690px; /* Set a fixed height for the container */
     border: 4px solid #ddd; 
 }
   
