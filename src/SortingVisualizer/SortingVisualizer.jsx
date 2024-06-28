@@ -1,6 +1,8 @@
 import React from 'react';
 import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js';
 import {getQuickSortAnimations} from '../SortingAlgorithms/QuickSort.js';
+import {getBubbleSortAnimations} from '../SortingAlgorithms/BubbleSort.js';
+
 
 import './SortingVisualizer.css';
 
@@ -109,7 +111,36 @@ export default class SortingVisualizer extends React.Component {
   }
 
   bubbleSort() {
-    
+    const nameHeader = document.getElementById('name-holder');
+    nameHeader.textContent = 'Bubble Sort';
+  
+    const animations = getBubbleSortAnimations(this.state.array);
+    for (let i = 0; i < animations.length; i++) {
+      const arrayBars = document.getElementsByClassName('array-bar');
+      const [action, barOneIdx, barTwoIdx] = animations[i];
+      if (action === "compare" || action === "revert") {
+        const barOneStyle = arrayBars[barOneIdx].style;
+        const barTwoStyle = arrayBars[barTwoIdx].style;
+        const color = action === "compare" ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED_MS);
+      } else if (action === "swap") {
+        const [barOneIdx, newHeightOne, barTwoIdx, newHeightTwo] = [animations[i][1], animations[i][2], animations[i][3], animations[i][4]];
+        setTimeout(() => {
+          const barOneStyle = arrayBars[barOneIdx].style;
+          const barTwoStyle = arrayBars[barTwoIdx].style;
+          const barOneValue = arrayBars[barOneIdx];
+          const barTwoValue = arrayBars[barTwoIdx];
+  
+          barOneStyle.height = `${newHeightOne}px`;
+          barTwoStyle.height = `${newHeightTwo}px`;
+          barOneValue.textContent = newHeightOne;
+          barTwoValue.textContent = newHeightTwo;
+        }, i * ANIMATION_SPEED_MS);
+      }
+    }
   }
 
   // NOTE: This method will only work if your sorting algorithms actually return
